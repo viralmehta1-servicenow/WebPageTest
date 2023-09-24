@@ -71,7 +71,7 @@ class RunResultHtmlTable
         $this->enabledColumns[self::COL_LABEL] = $this->testInfo->getRuns() > 1 || $this->isMultistep || $this->rvRunResults;
         $this->enabledColumns[self::COL_RESULT] = true;
         $this->enabledColumns[self::COL_CERTIFICATE_BYTES] = $runResults->hasValidNonZeroMetric('certificate_bytes');
-        $checkByMetric = array(self::COL_FIRST_CONTENTFUL_PAINT, self::COL_SPEED_INDEX, self::COL_TIME_TO_INTERACTIVE,
+        $checkByMetric = array(self::COL_VISUAL_COMPLETE, self::COL_FIRST_CONTENTFUL_PAINT, self::COL_SPEED_INDEX, self::COL_TIME_TO_INTERACTIVE,
                            self::COL_LARGEST_CONTENTFUL_PAINT, self::COL_CUMULATIVE_LAYOUT_SHIFT, self::COL_TOTAL_BLOCKING_TIME, self::COL_ENV_IMP);
         foreach ($checkByMetric as $col) {
             $this->enabledColumns[$col] = $runResults->hasValidMetric($col) ||
@@ -297,6 +297,12 @@ class RunResultHtmlTable
             //$out .= $this->_headCell('<a href="' . self::SPEED_INDEX_URL . '" target="_blank">Speed Index</a>');
             $out .= $this->_bodyCell(null, "How soon did the page look usable?");
         }
+        
+        if ($this->isColumnEnabled(self::COL_VISUAL_COMPLETE)) {
+            //$out .= $this->_headCell('<a href="' . self::SPEED_INDEX_URL . '" target="_blank">Speed Index</a>');
+            $out .= $this->_bodyCell(null, "How soon did the page look usable?");
+        }
+
         if ($this->isColumnEnabled(self::COL_RESULT)) {
             //$out .= $this->_headCell("Result (error&nbsp;code)");
             $out .= $this->_bodyCell(null, "What error code was shown?");
@@ -417,6 +423,7 @@ class RunResultHtmlTable
     {
         $stepNum = $stepResult->getStepNumber();
         $cachedRun = $stepResult->isCachedRun();
+
         $idPrefix = "";
         $class = $row % 2 == 0 ? "even" : null;
         if ($this->rvRunResults) {

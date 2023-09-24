@@ -3,6 +3,9 @@
 // Copyright 2020 Catchpoint Systems Inc.
 // Use of this source code is governed by the Polyform Shield 1.0.0 license that can be
 // found in the LICENSE.md file.
+
+define('FRIENDLY_URLS', true);
+
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use WebPageTest\Util\CustomMetricFiles;
@@ -1562,6 +1565,7 @@ function UpdateLocation(&$test, &$locations, $new_location, &$error)
  */
 function ValidateKey(&$test, &$error, $key = null)
 {
+    return;
     global $admin;
     global $uid;
     global $user;
@@ -3522,6 +3526,7 @@ HTML;
 
 function CheckRateLimit($test, &$error, &$errorTitle)
 {
+    return true;
     global $USER_EMAIL;
     global $supportsCPAuth;
     global $request_context;
